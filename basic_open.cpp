@@ -1,18 +1,18 @@
 #include <iostream>
 #include <cstring>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
+#include <fstream>
 
 using std::cout;
 using std::endl;
 using std::string;
+using std::ofstream;
 
 int main()
 {
-	int fd;
-	string buf = "Let's go!\n";
-	fd = open("data.txt", O_CREAT | O_WRONLY | O_TRUNC);
-	write(fd, buf.c_str(), buf.size());
+	ofstream file;
+ 	file.open("text.txt");
+	file << "Hello World!\n";
+	file.close();
+
+	return 0;
 }

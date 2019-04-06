@@ -1,24 +1,22 @@
 #include <iostream>
 #include <cstring>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <iostream>
+#include <fstream>
 
 using std::cout;
 using std::endl;
 using std::string;
+using std::ifstream;
 
 int main()
 {
-	int fd;
-	//string buf;
-	char buf[14];
+	ifstream file;
+	string line;
+	file.open("text.txt");
+	while (getline(file, line)) {
+		cout << line << endl;
+	}
+	file.close();
 
-	fd = open("test.txt", O_RDONLY);
-	//read(fd, buf.c_str(), buf.size());
-	read(fd, buf, sizeof(buf) - 1);
-	cout << buf << endl;
-
-	close(fd);
+	return 0;
 }
