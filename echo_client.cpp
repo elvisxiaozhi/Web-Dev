@@ -35,7 +35,7 @@ int main()
 		cout << "connect error" << endl;
 	}
 
-	int strLen;
+	int strLen, recvLen, recvCnt;
 	while (true) {
 		cout << "Input message(q|Q to quit): "; 
 		string messageCp(message);
@@ -46,8 +46,14 @@ int main()
 
 		strcpy(message, messageCp.c_str());
 
-		write(sock, message, strlen(message));	
-		strLen = read(sock, message, 1024 - 1);
+		strLen = write(sock, message, strlen(message));
+		
+		recvLen = 0;
+		while (recvLen < strLen) {
+			recvCnt = read(sock, &message[recvLen], 1024 -1);
+			recvLen += recvCnt;	
+		}
+
 		message[strLen] = 0;
 		cout << "Message from server: " << message << endl;
 	}
