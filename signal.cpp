@@ -1,6 +1,6 @@
 #include <iostream>
 #include <unistd.h>
-#include <signal.h>
+#include <csignal>
 
 using std::cout;
 using std::endl;
@@ -26,9 +26,10 @@ int main()
 	signal(SIGINT, keyControl);
 	alarm(2);
 
-	for (i = 0; i < 3; ++i)
+	for (i = 0; i < 3; ++i) {
 		cout << "waiting..." << endl;
 		sleep(100);
+	}
 
 	return 0;
 }
