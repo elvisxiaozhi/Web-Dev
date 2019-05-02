@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 using std::cout;
 using std::endl;
@@ -10,9 +12,10 @@ void readChildProc(int sig)
 {
 	int status;
 	pid_t id = waitpid(-1, &status, WNOHANG);
-	if (WIFEXITED(status))
+	if (WIFEXITED(status)) {
 		cout << "Remove proc id: " << id << endl;
 		cout << "Child send: " << WEXITSTATUS(status) << endl;
+	}
 }
 
 int main()
@@ -41,16 +44,16 @@ int main()
 	   	if(pid == 0){                                      
          	cout << "Hi, I am child process!" << endl;
          	sleep(10);
-         	
-         	return 24;
+         	exit(24);	
 		}
 		else {
 			int i;
 			cout << "Child proc id: " << pid << endl;
 
-			for (i = 0; i < 5; ++i)
+			for (i = 0; i < 5; ++i) {
 				cout << "Waiting..." << endl;
 				sleep(5);
+			}
 		}
 	}
 
