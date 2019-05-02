@@ -24,9 +24,10 @@ int main()
 
 	alarm(2);
 
-	for (i = 0; i < 3; ++i)
+	for (i = 0; i < 3; ++i) {
 		cout << "waiting..." << endl;
 		sleep(100);
+	}
 
 	return 0;
 }
