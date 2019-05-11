@@ -7,9 +7,10 @@
 
 using std::cout;
 using std::endl;
+using std::string;
 
-#define BUFF_SIZE 100 
-#define NAME_SIZE 20 
+const int BUFF_SIZE = 100;
+const int NAME_SIZE = 20;
 
 void *send_msg(void *msg);
 void *recv_msg(void *msg);
@@ -24,12 +25,14 @@ int main(int argc, char *argv[])
 	pthread_t pthread_id_send, pthread_id_recv;	
 	void *thread_ret;
 
-	if(argc!=4){ //命令行中启动服务程序仅限一个参数：端口号
+	if(argc!=4){ 
 		cout << "Argument issue." << endl;
 		exit(1);
 	}
 
-	sprintf(name, "[%s]", argv[3]);
+	memset(name, 0, sizeof(name));
+	string strName = "[" + string(argv[3]) + "]";
+	strcpy(name, strName.c_str());
 
 	sock_server = socket(PF_INET, SOCK_STREAM, 0);
 
@@ -66,21 +69,20 @@ void *send_msg(void *arg)
 		}
 		sprintf(name_msg, "%s %s", name, msg);
 		write(sock, name_msg, strlen(name_msg));
-	//	fputs("Sent a message!\n", stderr);
 	}
 	return NULL;
 }
 void *recv_msg(void *arg)
 {
-
 	int sock = *((int *)arg);
 	char name_msg[NAME_SIZE+BUFF_SIZE];
 	int str_len;
 	while(1){
-		str_len = read(sock, name_msg, NAME_SIZE+BUFF_SIZE-1);
+		str_len = read(sock, name_msg, NAME_SIZE + BUFF_SIZE - 1);
 		if(str_len < 0) return (void*)-1;
-		name_msg[str_len] = 0;
-		fputs(name_msg, stdout);
+		
+		cout << name_msg;
+		memset(name_msg, 0, sizeof(name_msg));
 	}
 	return NULL;
 }
